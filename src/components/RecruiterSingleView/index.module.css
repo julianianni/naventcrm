@@ -1,0 +1,54 @@
+.container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: 100px;
+  height: 68vh;
+}
+.picture {
+  margin-top: 20px;
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.picture h2 {
+  color: #3f51b5;
+}
+.picture img {
+  height: 300px;
+  width: 300px;
+  border-radius: 30%;
+  margin: 10px 0px;
+}
+.info {
+  border: #3f51b5 1px solid;
+  margin-top: 20px;
+  margin-left: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  width: 50%;
+  background-color: #3f51b5;
+  color: white;
+}
+.info p {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 5px;
+}
+.btnInfopersonal {
+  padding: 10px;
+  border-radius: 5px;
+  background: transparent;
+  color: cornflowerblue;
+  border: cornflowerblue 1px solid;
+}
+
+#tableActiveJobs{
+    text-align: center;
+    outline: 1px solid;
+    margin-top: 39px;
+}
+.ButtonsInfo{
+  display:flex
+}
