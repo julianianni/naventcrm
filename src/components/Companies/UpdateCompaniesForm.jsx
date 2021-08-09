@@ -13,8 +13,6 @@ import { getAllAditionalData } from "../../store/aditionalData/actions";
 import styles from "../Jobs/index.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import ImageUpload from "../RecruiterForm/ImageUpload";
-import BtnConfirmRecruiter from "../UX/Buttons/BtnConfirmRecruiter";
-import BtnCancelEdit from "../UX/Buttons/BtnCancelEdit";
 import { message } from "antd";
 import { getCompanies, updateCompany } from "../../store/companies/companies";
 
@@ -23,7 +21,6 @@ export default function UpdateCompaniesForm({
   setValues,
   handleInputChange,
   handleSubmit,
-  setShowTable,
   handleClose,
 }) {
   const dispatch = useDispatch();
@@ -152,15 +149,16 @@ export default function UpdateCompaniesForm({
               autoComplete="disabled"
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12}>
             <TextField
               variant="outlined"
               label="Descripción"
               name="description"
               multiline
-              row={1}
+              row={4}
               value={values.description}
               autoComplete="disabled"
+              className={styles.formControlDescription}
             />
           </Grid>
           <input
@@ -168,12 +166,27 @@ export default function UpdateCompaniesForm({
             id="contained-button-file"
             type="file"
           />
-          <Grid item xs={4}></Grid>
-          <BtnConfirmRecruiter
-            onClick={(e) => handleSubmitUpdate(e)}
-            name="Confirm"
-          ></BtnConfirmRecruiter>
-          <BtnCancelEdit onClick={handleClose} name="Cancel"></BtnCancelEdit>
+          <Grid item xs={3}></Grid>
+          <Grid item xs={4}>
+            <Button
+              type="submit"
+              color="primary"
+              variant="contained"
+              onClick={(e) => handleSubmitUpdate(e)}
+            >
+              Confirmar
+            </Button>
+          </Grid>
+
+          <Grid item xs={4}>
+            <Button
+              onClick={() => handleClose()}
+              color="primary"
+              variant="contained"
+            >
+              Cerrar
+            </Button>
+          </Grid>
         </Grid>
       </form>
     </>

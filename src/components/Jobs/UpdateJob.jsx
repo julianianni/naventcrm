@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react'
 import {
   CircularProgress,
   Grid,
@@ -8,39 +8,38 @@ import {
   FormControl,
   InputLabel,
   Select,
-  Input,
   MenuItem,
-  useTheme,
-} from "@material-ui/core";
-import { useDispatch, useSelector } from "react-redux";
-import { createJob, getAllJobs, updateJob } from "../../store/jobs/jobs";
-import { getCompanies } from "../../store/companies/companies";
-import { getAllAditionalData } from "../../store/aditionalData/actions";
-import styles from "./index.module.css";
-import useModal from "./useModal";
-import { message } from "antd";
+} from '@material-ui/core'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllJobs, updateJob } from '../../store/jobs/jobs'
+import { getCompanies } from '../../store/companies/companies'
+import { getAllAditionalData } from '../../store/aditionalData/actions'
+import styles from './index.module.css'
+import { message } from 'antd'
 
 const UpdateJob = ({ job, handleClose }) => {
-  const { setOpen, setOpenUpdate } = useModal();
+
+
+   // const { setOpen, setOpenUpdate } = useModal() Este modal no se está utilizando
 
   const useStyles = makeStyles((theme) => ({
     root: {
-      "& .MuiFormControl-root": {
-        width: "80%",
+      '& .MuiFormControl-root': {
+        width: '80%',
         margin: theme.spacing(1),
       },
       input: {
-        display: "none",
+        display: 'none',
       },
-      "& > *": {
+      '& > *': {
         margin: theme.spacing(1),
       },
       button: {
         margin: theme.spacing(1),
       },
     },
-  }));
-  const classes = useStyles();
+  }))
+  const classes = useStyles()
 
   const initialValues = {
     title: job.title,
@@ -53,64 +52,41 @@ const UpdateJob = ({ job, handleClose }) => {
     modalityId: job.modalityId,
     description: job.description,
     companyId: job.companyId,
-  };
-  const [values, setValues] = useState(initialValues);
-  const dispatch = useDispatch();
+  }
+  const [values, setValues] = useState(initialValues)
+  const dispatch = useDispatch()
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setValues({
       ...values,
       [name]: value,
-    });
-  };
+    })
+  }
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    // console.log(values)
-    // if (
-    //     values.title !== null &&
-    //     values.areaId !== null &&
-    //     values.seniorityId !== null &&
-    //     values.country !== null &&
-    //     values.typeemloyedId !== null &&
-    //     values.modalityId !== null &&
-    //     values.description !== null &&
-    //     values.stateId !== null
-    //   ) {
+    e.preventDefault()
 
     dispatch(updateJob({ id: job.id, values })).then((value) => {
-      console.log(value);
+      console.log(value)
       if (value.payload) {
-        handleClose();
-        dispatch(getAllJobs());
-        message.success("Búsqueda actualizada correctamente");
-        // dispatch(getCompanies());
-        // setValues(initialFormValues);
+        handleClose()
+        dispatch(getAllJobs())
+        message.success('Búsqueda actualizada correctamente')
       }
-    });
-    //   }
-    //   else {
-    //     message.warning("Complete los campos");
-    //   }
-  };;;
+    })
+  }
 
-  const theme = useTheme();
+  const countryArr = ['Argentina']
 
-  const countryArr = ["Argentina"];
-
-  const { aditionalData } = useSelector((state) => state);
-  const { areas, modalities, seniorities, states, type } = aditionalData;
-  const { companies } = useSelector((state) => state);
+  const { aditionalData } = useSelector((state) => state)
+  const { areas, modalities, seniorities, states, type } = aditionalData
+  const { companies } = useSelector((state) => state)
 
   useEffect(() => {
-    dispatch(getAllAditionalData());
-    dispatch(getCompanies());
-  }, [dispatch]);
-
-  const getDataJob = () => {
-    console.log("JOB", job);
-  };
+    dispatch(getAllAditionalData())
+    dispatch(getCompanies())
+  }, [dispatch])
 
   return (
     <>
@@ -309,6 +285,7 @@ const UpdateJob = ({ job, handleClose }) => {
                   label="Salario"
                   name="salary"
                   type="number"
+                  InputProps={{ inputProps: { min: 0 } }}
                   defaultValue={job.salary}
                   onChange={handleChange}
                   autoComplete="disabled"
@@ -358,20 +335,20 @@ const UpdateJob = ({ job, handleClose }) => {
                   autoComplete="disabled"
                 />
               </Grid>
-
-              <Grid item xs={3}>
+              <Grid item xs={3}></Grid>
+              <Grid item xs={4}>
                 <Button type="submit" color="primary" variant="contained">
                   Confirmar
                 </Button>
               </Grid>
 
-              <Grid item xs={3}>
+              <Grid item xs={4}>
                 <Button
                   onClick={() => handleClose()}
-                  color="secondary"
+                  color="primary"
                   variant="contained"
                 >
-                  Cerrar
+                  Cancelar
                 </Button>
               </Grid>
             </Grid>
@@ -386,6 +363,6 @@ const UpdateJob = ({ job, handleClose }) => {
       )}
     </>
   );
-};
+}
 
-export default UpdateJob;
+export default UpdateJob

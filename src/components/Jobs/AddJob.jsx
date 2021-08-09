@@ -1,72 +1,25 @@
-import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from "react-redux";
 import { createJob, getAllJobs } from '../../store/jobs/jobs'
-import { getAllJobsByCompany } from '../../store/companies/jobsCompany'
+//import { getAllJobsByCompany } from '../../store/companies/jobsCompany'
 import {
-  Grid,
-  Paper,
-  Button,
   Modal,
   Fade,
-  makeStyles,
   Backdrop,
 } from '@material-ui/core'
 import JobsForm from './JobsForm'
 import { message } from 'antd'
-import styles from './index.module.css'
+//import styles from './index.module.css'
 import useModal from './useModal'
 import BtnCreateNewJobs from '../UX/Buttons/BtnCreateNewJobs'
 import { singleCompany } from '../../store/companies/singleCompany'
-
-// function getModalStyle() {
-//     const top = 50
-//     const left = 50
-
-//     return {
-//       top: `${top}%`,
-//       left: `${left}%`,
-//       transform: `translate(-${top}%, -${left}%)`,
-//     }
-// }
 
 const AddJob = ({ setCreate }) => {
   const { open, setOpen, handleOpen, handleClose, classes, modalStyle } =
     useModal()
 
-  //Traditional settings
-  const handleShowForm = () => {
-    document.getElementById('createJobForm').style.display =
-      document.getElementById('createJobForm').style.display === 'none'
-        ? 'block'
-        : 'none'
-  }
+        const { user } = useSelector((state) => state);
 
-  //Modal settings
-  // const useStyles = makeStyles((theme) => ({
-  //     modal: {
-  //       display: 'flex',
-  //       alignItems: 'center',
-  //       justifyContent: 'center',
-  //     },
-  //     paper: {
-  //       position: 'absolute',
-  //       width: 1100,
-  //       backgroundColor: theme.palette.background.paper,
-  //       boxShadow: theme.shadows[5],
-  //       padding: theme.spacing(2, 4, 3),
-  //     },
-  //   }))
-  // const classes = useStyles()
-
-  // const [modalStyle] = React.useState(getModalStyle)
-  // const [open, setOpen] = React.useState(false)
-
-  // const handleOpen = () => {
-  //     setOpen(true)
-  //   }
-  // const handleClose = () => {
-  //     setOpen(false)
-  // }
 
   //FORM
   const initialValues = {
@@ -90,7 +43,6 @@ const AddJob = ({ setCreate }) => {
       ...values,
       [name]: value,
     })
-    console.log(values)
   }
 
   const handleSubmit = (e) => {
@@ -111,9 +63,7 @@ const AddJob = ({ setCreate }) => {
           dispatch(singleCompany({}))
           if (setCreate) setCreate(true)
           setOpen(false)
-          message.success('Búsqueda creada correctamente')
-          // dispatch(getCompanies());
-          // setValues(initialFormValues);
+          message.success("Búsqueda creada correctamente");
         }
       })
     } else {
@@ -124,20 +74,17 @@ const AddJob = ({ setCreate }) => {
   return (
     <>
       <div style={{ marginLeft: 300, marginTop: 20 }}>
-        {/* <div> */}
         <BtnCreateNewJobs
+          disabled={user.role.name === "auditor"}
           onClick={handleOpen}
-          name='Crear búsqueda'
+          name="Crear búsqueda"
         ></BtnCreateNewJobs>
       </div>
-      {/* <div style={{ display: "none" }} id="createJobForm">
-                <JobsForm/>
-            </div> */}
 
       <Modal
         open={open}
         onClose={() => {
-          handleClose()
+          handleClose();
         }}
         className={classes.modal}
         closeAfterTransition
@@ -150,12 +97,13 @@ const AddJob = ({ setCreate }) => {
               values={values}
               handleChange={handleChange}
               handleSubmit={handleSubmit}
+              handleClose={handleClose}
             />
           </div>
         </Fade>
       </Modal>
     </>
-  )
+  );
 }
 
 export default AddJob

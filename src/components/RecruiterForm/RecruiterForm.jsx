@@ -4,21 +4,21 @@ import {
   makeStyles,
   FormControl,
   InputLabel,
+  Button,
   Select,
   MenuItem,
-} from '@material-ui/core'
+} from "@material-ui/core";
 import React, { useEffect } from 'react'
-import s from './index.module.css'
+import styles from './index.module.css'
+//import s from './index.module.css'
 import ImageUpload from './ImageUpload'
-import BtnConfirmRecruiter from '../UX/Buttons/BtnConfirmRecruiter'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllAditionalData } from '../../store/aditionalData/actions'
-import { useState } from 'react'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiFormControl-root': {
-      width: '80%',
+      width: '90%',
       margin: theme.spacing(1),
     },
     input: {
@@ -33,48 +33,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const RecruiterForm = ({ handleSubmit, values, setValues }) => {
-  const classes = useStyles()
+const RecruiterForm = ({ handleClose,  handleSubmit, values, setValues }) => {
 
-  const dispatch = useDispatch()
+  const classes = useStyles();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllAditionalData())
-  }, [dispatch])
+    dispatch(getAllAditionalData());
+  }, [dispatch]);
 
-  const { aditionalData } = useSelector((state) => state)
-  const { areas, modalities, seniorities, states, type } = aditionalData
-  const countryArr = ['Argentina']
-
-  // const [selectedFav1, setSelectedFav1] = useState('')
-  // const [selectedFav2, setSelectedFav2] = useState('')
-  // const [selectedFav3, setSelectedFav3] = useState('')
-  // const [favOptions, setFavOptions] = useState(areas)
-
-  // console.log('fav options', favOptions)
+  const { aditionalData } = useSelector((state) => state);
+  const { areas, seniorities, states } = aditionalData;
+  const countryArr = ["Argentina"];
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target
-
-    // if (name === 'favoriteArea1') setSelectedFav1(value)
-    // if (name === 'favoriteArea2') setSelectedFav2(value)
-    // if (name === 'favoriteArea3') setSelectedFav3(value)
-    // setFavOptions((remainders) => {
-    //   return remainders.filter((remainder) => {
-    //     if (remainder === selectedFav1) return false
-    //     if (remainder === selectedFav2) return false
-    //     if (remainder === selectedFav3) return false
-    //     return true
-    //   })
-    // })
-
-    // console.log('FAV OPTIONNS', favOptions)
+    const { name, value } = e.target;
 
     setValues({
       ...values,
       [name]: value,
-    })
-  }
+    });
+  };
 
   return (
     <>
@@ -86,6 +65,9 @@ const RecruiterForm = ({ handleSubmit, values, setValues }) => {
           handleSubmit(e);
         }}
       >
+        <div>
+          <ImageUpload setValues={setValues} values={values} />
+        </div>
         <Grid container spacing={12}>
           <Grid item xs={6}>
             <TextField
@@ -146,7 +128,7 @@ const RecruiterForm = ({ handleSubmit, values, setValues }) => {
                 Provincia
               </InputLabel>
               <Select
-                name="state"
+                name="stateId"
                 onChange={(e) => handleInputChange(e)}
                 required
                 label="Provincia"
@@ -177,7 +159,7 @@ const RecruiterForm = ({ handleSubmit, values, setValues }) => {
               >
                 {areas &&
                   areas.map((area) => {
-                    const { name, id } = area;
+                    const { name } = area;
                     return <MenuItem value={name}>{name}</MenuItem>;
                   })}
               </Select>
@@ -196,7 +178,7 @@ const RecruiterForm = ({ handleSubmit, values, setValues }) => {
               >
                 {areas &&
                   areas.map((area) => {
-                    const { name, id } = area;
+                    const { name } = area;
                     return <MenuItem value={name}>{name}</MenuItem>;
                   })}
               </Select>
@@ -215,7 +197,7 @@ const RecruiterForm = ({ handleSubmit, values, setValues }) => {
               >
                 {areas &&
                   areas.map((area) => {
-                    const { name, id } = area;
+                    const { name } = area;
                     return <MenuItem value={name}>{name}</MenuItem>;
                   })}
               </Select>
@@ -235,7 +217,7 @@ const RecruiterForm = ({ handleSubmit, values, setValues }) => {
               >
                 {seniorities &&
                   seniorities.map((seniority) => {
-                    const { name, id } = seniority;
+                    const { name } = seniority;
                     return <MenuItem value={name}>{name}</MenuItem>;
                   })}
               </Select>
@@ -254,7 +236,7 @@ const RecruiterForm = ({ handleSubmit, values, setValues }) => {
               >
                 {seniorities &&
                   seniorities.map((seniority) => {
-                    const { name, id } = seniority;
+                    const { name } = seniority;
 
                     return <MenuItem value={name}>{name}</MenuItem>;
                   })}
@@ -274,7 +256,7 @@ const RecruiterForm = ({ handleSubmit, values, setValues }) => {
               >
                 {seniorities &&
                   seniorities.map((seniority) => {
-                    const { name, id } = seniority;
+                    const { name } = seniority;
                     return <MenuItem value={name}>{name}</MenuItem>;
                   })}
               </Select>
@@ -282,40 +264,38 @@ const RecruiterForm = ({ handleSubmit, values, setValues }) => {
           </Grid>
           <Grid item xs={12}>
             <TextField
+              className={styles.formControlDescription}
               variant="outlined"
               label="Bio"
+              rows={4}
+              multiline
               name="bio"
               required
               value={values.bio}
               autoComplete="disabled"
-            />{" "}
+            />
           </Grid>
 
-          <Grid item xs={5}></Grid>
-          <Grid item xs={5}>
-            <BtnConfirmRecruiter
-              type="submit"
-              variant="contained"
+          <Grid item xs={3}></Grid>
+          <Grid item xs={4}>
+            <Button type="submit" color="primary" variant="contained">
+              Confirmar
+            </Button>
+          </Grid>
+
+          <Grid item xs={4}>
+            <Button
+              onClick={() => handleClose()}
               color="primary"
-              name="confirmar"
-              label="Add"
-              style={{
-                border: "1px solid white",
-                borderRadius: "10px",
-                width: "10%",
-                margin: "10px auto",
-              }}
+              variant="contained"
             >
-              Confirm
-            </BtnConfirmRecruiter>
+              Cerrar
+            </Button>
           </Grid>
         </Grid>
       </form>
-      <div>
-        <ImageUpload setValues={setValues} values={values} />
-      </div>
     </>
   );
-}
+};
 
 export default RecruiterForm

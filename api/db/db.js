@@ -9,7 +9,6 @@ console.log(chalk.yellow('\n Openning connection to Postgres'))
 //  });
 
 //db para windows
-
 const db = new Sequelize('postgres://postgres:8712@localhost:5432/navent', {
   logging: false,
 })

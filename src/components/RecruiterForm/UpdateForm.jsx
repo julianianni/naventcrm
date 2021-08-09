@@ -6,20 +6,13 @@ import {
   FormControl,
   InputLabel,
   Select,
-  Input,
   MenuItem,
-  useTheme,
 } from '@material-ui/core'
-import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
-import { seniorityArr, favArea } from './options'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import ImageUpload from './ImageUpload'
-
 import { getAllAditionalData } from '../../store/aditionalData/actions'
 
-import BtnConfirmRecruiter from '../UX/Buttons/BtnConfirmRecruiter'
-import BtnCancelEdit from '../UX/Buttons/BtnCancelEdit'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,43 +23,37 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const UpdateForm = ({ handleSubmit, values, setShowTable }) => {
-  const classes = useStyles()
-  const dispatch = useDispatch()
+const UpdateForm = ({
+  values,
+  setValues,
+  handleInputChange,
+  handleSubmit,
+  handleClose,
+}) => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllAditionalData())
-  }, [dispatch])
+    dispatch(getAllAditionalData());
+  }, [dispatch]);
   //const history = useHistory()
-  const [updateValues, setUpdateValues] = useState(values)
 
-  const { aditionalData } = useSelector((state) => state)
-  const { areas, modalities, seniorities, states, type } = aditionalData
-  const countryArr = ['Argentina']
+  const { aditionalData } = useSelector((state) => state);
+  const { areas, seniorities, states } = aditionalData;
+  const countryArr = ["Argentina"];
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setUpdateValues({
-      ...updateValues,
-      [name]: value,
-    })
-  }
-  const handleClose = (e) => {
-    e.preventDefault()
-    setShowTable(true)
-  }
 
-  console.log(values)
   return (
     <>
       <div>
-        <ImageUpload setValues={setUpdateValues} values={updateValues} />
+        <ImageUpload setValues={setValues} values={values} />
       </div>
       <form
         onChange={(e) => handleInputChange(e)}
         className={classes.root}
         onSubmit={(e) => {
-          handleSubmit(e, updateValues);
+          handleClose();
+          handleSubmit(e, values);
         }}
       >
         <Grid container spacing={12}>
@@ -127,19 +114,19 @@ const UpdateForm = ({ handleSubmit, values, setShowTable }) => {
                 Provincia
               </InputLabel>
               <Select
-                name="state"
+                name="stateId"
                 onChange={(e) => handleInputChange(e)}
                 required
                 label="Provincia"
-                defaultValue={values.state}
+                value={values.stateId}
                 autoComplete="disabled"
               >
-                <MenuItem value="" disable>
+                <MenuItem value={values.stateId} disable>
                   <em>Seleccione provincia</em>
                 </MenuItem>
                 {states &&
                   states.map((state) => {
-                    return <MenuItem value={state.name}>{state.name}</MenuItem>;
+                    return <MenuItem value={state.id}>{state.name}</MenuItem>;
                   })}
               </Select>
             </FormControl>
@@ -160,7 +147,7 @@ const UpdateForm = ({ handleSubmit, values, setShowTable }) => {
               >
                 {areas &&
                   areas.map((area) => {
-                    const { name, id } = area;
+                    const { name } = area;
                     return <MenuItem value={name}>{name}</MenuItem>;
                   })}
               </Select>
@@ -173,7 +160,7 @@ const UpdateForm = ({ handleSubmit, values, setShowTable }) => {
               </InputLabel>
               <Select
                 name="favoriteArea2"
-                required
+                
                 defaultValue={values.favoriteArea2}
                 label="Favourite Area"
                 onChange={(e) => handleInputChange(e)}
@@ -181,7 +168,7 @@ const UpdateForm = ({ handleSubmit, values, setShowTable }) => {
               >
                 {areas &&
                   areas.map((area) => {
-                    const { name, id } = area;
+                    const { name } = area;
                     return <MenuItem value={name}>{name}</MenuItem>;
                   })}
               </Select>
@@ -194,7 +181,7 @@ const UpdateForm = ({ handleSubmit, values, setShowTable }) => {
               </InputLabel>
               <Select
                 name="favoriteArea3"
-                required
+                
                 defaultValue={values.favoriteArea3}
                 label="Favourite Area"
                 onChange={(e) => handleInputChange(e)}
@@ -202,7 +189,7 @@ const UpdateForm = ({ handleSubmit, values, setShowTable }) => {
               >
                 {areas &&
                   areas.map((area) => {
-                    const { name, id } = area;
+                    const { name } = area;
                     return <MenuItem value={name}>{name}</MenuItem>;
                   })}
               </Select>
@@ -223,7 +210,7 @@ const UpdateForm = ({ handleSubmit, values, setShowTable }) => {
               >
                 {seniorities &&
                   seniorities.map((seniority) => {
-                    const { name, id } = seniority;
+                    const { name } = seniority;
                     return <MenuItem value={name}>{name}</MenuItem>;
                   })}
               </Select>
@@ -236,7 +223,7 @@ const UpdateForm = ({ handleSubmit, values, setShowTable }) => {
               </InputLabel>
               <Select
                 name="seniority2"
-                required
+                
                 label="Seniority"
                 defaultValue={values.seniority2}
                 onChange={(e) => handleInputChange(e)}
@@ -244,7 +231,7 @@ const UpdateForm = ({ handleSubmit, values, setShowTable }) => {
               >
                 {seniorities &&
                   seniorities.map((seniority) => {
-                    const { name, id } = seniority;
+                    const { name } = seniority;
                     return <MenuItem value={name}>{name}</MenuItem>;
                   })}
               </Select>
@@ -257,7 +244,7 @@ const UpdateForm = ({ handleSubmit, values, setShowTable }) => {
               </InputLabel>
               <Select
                 name="seniority3"
-                required
+                
                 defaultValue={values.seniority3}
                 label="Seniority"
                 onChange={(e) => handleInputChange(e)}
@@ -265,7 +252,7 @@ const UpdateForm = ({ handleSubmit, values, setShowTable }) => {
               >
                 {seniorities &&
                   seniorities.map((seniority) => {
-                    const { name, id } = seniority;
+                    const { name } = seniority;
                     return <MenuItem value={name}>{name}</MenuItem>;
                   })}
               </Select>
@@ -280,12 +267,26 @@ const UpdateForm = ({ handleSubmit, values, setShowTable }) => {
               autoComplete="disabled"
             />
           </Grid>
-          <BtnConfirmRecruiter name="Confirm"></BtnConfirmRecruiter>
-          <BtnCancelEdit onClick={handleClose} name="Cancel"></BtnCancelEdit>
+          <Grid item xs={3}></Grid>
+          <Grid item xs={4}>
+            <Button type="submit" color="primary" variant="contained">
+              Confirmar
+            </Button>
+          </Grid>
+
+          <Grid item xs={4}>
+            <Button
+              onClick={() => handleClose()}
+              color="primary"
+              variant="contained"
+            >
+              Cerrar
+            </Button>
+          </Grid>
         </Grid>
       </form>
     </>
   );
-}
+};
 
 export default UpdateForm

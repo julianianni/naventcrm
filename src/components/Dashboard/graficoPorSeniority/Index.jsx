@@ -21,7 +21,22 @@ function ChartBySeniority() {
       })
   }, [])
 
-  const colors = ['#FFBB28', '#FF8042', '#0088FE', '#00C49F']
+  const colors = [
+    '#242331',
+    '#3C312F',
+    '#533E2D',
+    '#90A45E',
+    '#A27035',
+    '#AD7E40',
+    '#B88B4A',
+    '#CBAB64',
+    '#CBAB64',
+    '#DDCA7D',
+    '#A83264',
+    '#A88159',
+    '#a5cfb0',
+    '#6364d6',
+  ]
   const RADIAN = Math.PI / 180
 
   const renderCustomizedLabel = ({
@@ -55,21 +70,21 @@ function ChartBySeniority() {
         <h1>Busquedas por Seniority</h1>
       </div>
       <div className={s.graficos}>
-        <PieChart width={450} height={200}>
+        <PieChart width={600} height={200}>
           <Legend
-            cy="20%"
-            layout="vertical"
-            align="left"
-            verticalAlign="middle"
+            cy='20%'
+            layout='vertical'
+            align='left'
+            verticalAlign='middle'
           />
           <Pie
             data={areas}
-            cx="55%"
+            cx='40%'
             // cy='20%'
-            dataKey="value"
+            dataKey='value'
             labelLine={false}
             label={renderCustomizedLabel}
-            outerRadius={80}
+            outerRadius={100}
           >
             {areas.map((areas, index) => (
               <Cell key={areas.areaId} fill={colors[index]} />
@@ -78,7 +93,7 @@ function ChartBySeniority() {
         </PieChart>
       </div>
     </div>
-  );
+  )
 }
 
 export default ChartBySeniority

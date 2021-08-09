@@ -1,12 +1,13 @@
-const { Op } = require("sequelize");
+const { Op } = require('sequelize')
 const { Companies, Areas, States, Jobs } = require("../db/models");
-const { findByPk } = require("../db/models/recruiters");
 
 const companiesController = {
   async findAll(req, res, next) {
     try {
       const companies = await Companies.findAll({
         include: [{ model: States }, { model: Areas }],
+        
+        where:  {  active:  true  },
       });
       res.status(200).json(companies);
     } catch (err) {
@@ -48,7 +49,12 @@ const companiesController = {
 
   async destroyCompaniesByPk(req, res, next) {
     try {
-      await Companies.destroy({ where: { id: req.params.id } });
+      await Companies.update(
+        {
+          active: false,
+        },
+        { where: { id: req.params.id } }
+      );
       res.sendStatus(200);
     } catch (err) {
       next(err);
@@ -59,15 +65,32 @@ const companiesController = {
     try {
       const companies = await Companies.findAll({
         where: {
+          active: true,
           [Op.or]: [
             {
               name: {
-                [Op.iLike]: `%${req.params.search}%`,
+                [Op.iLike]: `%${req.body.search}%`,
               },
             },
           ],
         },
-        include: { all: true },
+        include: [
+          //incluir modelos
+          {
+            model: Areas,
+            where: {
+              name: {
+                [Op.iLike]: `%${req.body.area}%`,
+              },
+            },
+          },
+
+          {
+            all: true,
+          },
+
+          //fin incluir modelos
+        ],
       });
       res.status(200).json(companies);
     } catch (err) {
@@ -86,6 +109,40 @@ const companiesController = {
       next(err);
     }
   },
+  async getAllJobsByRecruiterId(req, res, next) {
+    try {
+      const jobs = await Jobs.findAll({
+        where: { recruiterId: req.params.id },
+        include: { all: true },
+      });
+      res.status(200).json(jobs);
+    } catch (err) {
+      next(err);
+    }
+  },
+  async getAllJobsAssignedByRecruiterId(req, res, next) {
+    try {
+      const jobs = await Jobs.findAll({
+        where: { recruiterId: req.params.id, isOpen: "asignada" },
+        include: { all: true },
+      });
+      res.status(200).json(jobs);
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  async getSingleCompany(req, res, next) {
+    try {
+      const singleCompany = await Companies.findOne({
+        where: { id: req.params.id },
+        include: { all: true },
+      });
+      res.status(200).json(singleCompany);
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
-module.exports = companiesController;
+module.exports = companiesController

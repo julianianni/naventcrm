@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import LoginForm from './LoginForm'
 import { UserLogin } from '../../store/user/user'
-import firebase from '../../utils/firebase'
 
 const Login = () => {
   const dispatch = useDispatch()
@@ -67,7 +66,6 @@ const Login = () => {
           errorMessage={errorMessage}
           isLoading={isLoading}
         />
-        <button onClick={() => history.goBack()}>Go back</button>
       </div>
     </>
   )

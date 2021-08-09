@@ -1,83 +1,39 @@
 div {
   transition: width 1s;
 }
-
-.sidebarContainer {
-  bottom: 0;
-  position: absolute;
-  background-color: black;
-  z-index: 0;
-  display: flex;
-  width: 50px;
-  height: 100%;
-  color: white;
-  text-align: center;
-  font-size: medium;
-  flex-wrap: wrap;
-  overflow: hidden;
-  position: fixed;
-  justify-content: left;
-}
-
-.sidebarContainer:hover {
-  width: 230px;
-  background-color: #3f51b5;
-}
-.sidebarDiv {
-  display: flex;
-  height: 25%;
-  flex-direction: row;
-}
-
 .container {
-  font-size: 18px;
-}
-.hideSidebar {
-  display: none;
-}
-
-.navbartext {
-  color: white;
-  font-size: 2.5vh;
-  padding-right: 10px;
-}
-
-.iconImage {
-  color: #0a26ee;
-  margin-left: 0px;
-  height: 30px;
-  width: 30px;
-}
-
-.navbartext:hover {
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-.div-icon {
+  z-index: 100;
+  top: 0px;
+  padding-bottom: 200px;
+  padding-top: 80px;
+  margin-bottom: 300px;
   height: 100%;
-  position: absolute;
-}
-.nav-text {
-  padding-left: 0px;
-  padding-right: 5px;
-  padding-top: 50%;
-  font-size: 20px;
-  padding-bottom: 100px;
-  justify-content: flex-start;
-  align-self: center;
+  position: fixed;
+  width: 35px;
+  background-color: black;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
-.sidebarDiv {
-  align-self: center;
-  align-content: start;
+.container:hover {
+  width: 240px;
+  background-color: #1890ff;
 }
-
-.navbaricon {
+.diviconoytitulo {
+  display: flex;
+  flex-direction: row;
+  font-size: 14px;
   color: white;
-  padding-right: 5px;
-  max-height: 45px;
 }
-.navbaricon:hover {
-  transition: cubic-bezier(0.165, 0.84, 0.44, 1);
+
+.diviconoytitulo > h1 {
+  color: white;
+}
+
+.titulo {
+  vertical-align: center;
+  padding-left: 7px;
+  color: white;
 }

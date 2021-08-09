@@ -8,7 +8,7 @@ function LoginForm({ handleChange, handleSubmit, errorMessage, isLoading }) {
   return (
     <div className={styles.backgroundImage}>
       <div className={styles.loginCard}>
-        <h1 style={{ color: 'white' }}>Enter you Account</h1>
+        <h1 style={{ color: "white" }}>Ingrese su cuenta</h1>
 
         <form
           onChange={handleChange}
@@ -16,38 +16,40 @@ function LoginForm({ handleChange, handleSubmit, errorMessage, isLoading }) {
           className={styles.loginform}
         >
           <div className={styles.loginInput}>
-            <label text-align='center'>Email</label>
-            <input type='text' placeholder='Your Email' name='email' />
-            {errorMessage.type === 'email' && (
-              <Alert message={errorMessage.message} type='error' />
+            <label text-align="center">Email</label>
+            <input type="text" placeholder="Your Email" name="email" />
+            {errorMessage.type === "email" && (
+              <Alert message={errorMessage.message} type="error" />
             )}
           </div>
           <div className={styles.loginInput}>
             <label>Password</label>
             <input
-              type='password'
-              placeholder='Your password'
-              name='password'
+              type="password"
+              placeholder="Your password"
+              name="password"
             />
-            {errorMessage.type === 'password' && (
-              <Alert message={errorMessage.message} type='error' />
+            {errorMessage.type === "password" && (
+              <Alert message={errorMessage.message} type="error" />
             )}
             <p>
-              Olvido su contrasena?{' '}
+              Olvido su contraseña?{" "}
               <span>
-                <Link to='/forgotpassword'>haga click aqui</Link>
+                <Link to="/forgotpassword">Haga click aqui</Link>
               </span>
             </p>
           </div>
           {!isLoading ? (
-            <button type='submit'> Ingresar </button>
+            <button className={styles.loginbtn} type="submit">
+              Ingresar
+            </button>
           ) : (
             <CircularProgress />
           )}
         </form>
       </div>
     </div>
-  )
+  );
 }
 
 export default LoginForm

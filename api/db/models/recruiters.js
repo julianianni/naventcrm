@@ -25,17 +25,14 @@ Recruiters.init(
       allowNull: false,
     },
 
-    state: {
-      type: S.STRING,
-      allowNull: false,
-    },
-
     bio: {
       type: S.TEXT,
       allowNull: false,
     },
 
-    img: { type: S.STRING },
+    img: {
+      type: S.STRING,
+    },
 
     rating: {
       type: S.DOUBLE,
@@ -55,12 +52,19 @@ Recruiters.init(
       type: S.STRING,
       allowNull: false,
     },
-
     seniority2: { type: S.STRING },
-
     seniority3: { type: S.STRING },
+    activeSearch: { type: S.INTEGER, defaultValue: 0 },
+    active: { type: S.BOOLEAN, defaultValue: true },
   },
-  { sequelize: db, timestamps: false, modelName: 'recruiters' }
-)
+  { sequelize: db, timestamps: false, modelName: "recruiters" }
+);
+
+//
+Recruiters.addHook("beforeCreate", (recruiter) => {
+  return (recruiter.img = recruiter.img
+    ? recruiter.img
+    : "https://static.thenounproject.com/png/3674270-200.png");
+});
 
 module.exports = Recruiters
